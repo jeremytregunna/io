@@ -38,6 +38,8 @@ IoLLVMModule* IoLLVMModule_proto(void* state)
 		{"addTypeName", IoLLVMModule_addTypeName},
 		{"deleteTypeName", IoLLVMModule_deleteTypeName},
 		{"getTypeByName", IoLLVMModule_getTypeByName},
+		{"dump", IoLLVMModule_dump},
+		{"setModuleInlineAsm", IoLLVMModule_setModuleInlineAsm},
 		{NULL, NULL},
 		};
 		

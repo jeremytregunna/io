@@ -22,5 +22,14 @@ void IoLLVMModule_free(IoLLVMModule*);
 
 /* Creates a module with a name, and optional context */
 IoObject* IoLLVMModule_with(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_dataLayout(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_setDataLayout(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_target(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_setTarget(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_addTypeName(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_removeTypeName(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_getTypeByName(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_dump(IoObject*, IoObject*, IoMessage*);
+IoObject* IoLLVMModule_setModuleInlineAsm(IoObject*, IoObject*, IoMessage*);
 
 #endif
