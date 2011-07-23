@@ -31,6 +31,13 @@ IoLLVMModule* IoLLVMModule_proto(void* state)
 	{
 		IoMethodTable methodTable[] = {
 		{"with", IoLLVMModule_with},
+		{"dataLayout", IoLLVMModule_dataLayout},
+		{"setDataLayout", IoLLVMModule_setDataLayout},
+		{"target", IoLLVMModule_target},
+		{"setTarget", IoLLVMModule_setTarget},
+		{"addTypeName", IoLLVMModule_addTypeName},
+		{"deleteTypeName", IoLLVMModule_deleteTypeName},
+		{"getTypeByName", IoLLVMModule_getTypeByName},
 		{NULL, NULL},
 		};
 		
@@ -57,6 +64,7 @@ IoLLVMModule* IoLLVMModule_new(void* state)
 
 void IoLLVMModule_free(IoLLVMModule *self) 
 { 
+	LLVMDisposeModule(DATA(self)->module);
 	free(IoObject_dataPointer(self));
 }
 
@@ -76,3 +84,63 @@ IO_METHOD(LLVMModule, with)
 	return r;
 }
 
+IO_METHOD(LLVMModule, dataLayout)
+{
+	return IOSTRING(LLVMGetDataLayout(DATA(self)->module));
+}
+
+IO_METHOD(LLVMModule, setDataLayout)
+{
+	IoSeq* seq = IoMessage_locals_seqArgAt_(m, locals, 0);
+	LLVMSetDataLayout(DATA(self)->module, CSTRING(seq));
+	return self;
+}
+
+IO_METHOD(LLVMModule, target)
+{
+	return IOSTRING(LLVMGetTarget(DATA(self)->module));
+}
+
+IO_METHOD(LLVMModule, setTarget)
+{
+	IoSeq* seq = IoMessage_locals_seqArgAt_(m, locals, 0);
+	LLVMSetTarget(DATA(self)->module, CSTRING(seq));
+	return self;
+}
+
+IO_METHOD(LLVMModule, addTypeName)
+{
+	IoSeq* name = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoLLVMType* type = IoMessage_locals_valueArgAt_(m, locals, 1);
+
+	LLVMBool ret = LLVMAddTypeName(DATA(self)->module, CSTRING(name), IoLLVMType_getTypeRef(type));
+
+	return IOBOOL(self, ret);
+}
+
+IO_METHOD(LLVMModule, deleteTypeName)
+{
+	IoSeq* name = IoMessage_locals_seqArgAt_(m, locals, 0);
+	LLVMDeleteTypeName(DATA(self)->module, CSTRING(name));
+	return self;
+}
+
+IO_METHOD(LLVMModule, getTypeByName)
+{
+	IoSeq* name = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoLLVMType* type = LLVMGetTypeByName(DATA(self)->module, CSTRING(name));
+	return type;
+}
+
+IO_METHOD(LLVMModule, dump)
+{
+	LLVMDumpModule(DATA(self)->module);
+	return self;
+}
+
+IO_METHOD(LLVMModule, setModuleInlineAsm)
+{
+	IoSeq* assembly = IoMessage_locals_seqArgAt_(m, locals, 0);
+	LLVMSetModuleInlineAsm(DATA(self)->module, CSTRING(assembly));
+	return self;
+}
