@@ -1,0 +1,8 @@
+# LLVM Bindings
+
+In the process of building the [Acute Programming Language](https://github.com/jeremytregunna/acute), I needed support for LLVM in Io.
+I need this support because Acute is written in itself, and in the early days, before Acute existed, I used Steve's version as my Acute
+substitute. As such, since I'm targeting LLVM, I needed to produce LLVM IR that could be compiled down to machine code to produce an
+executable. At first I attempted to bind to LLVM's C bindings using CFFI, but that failed horribly. LLVM has some opaque structures that
+I could not get the definitions to so Io would know what it looked like internally. As such, this is what resulted. My real least
+favourite of all the options available.
