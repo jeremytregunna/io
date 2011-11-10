@@ -89,7 +89,7 @@ Number do(
 	//doc Range toBy(endingPoint, incrementValue) Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.
 	toBy := method(e, i,
 		if(i < 0, Exception raise("increment value must be non-negative"))
-		if((e - self) < i, e = self)
+		//if((e - self) < i, e = self)
 		if(self > e, i = 0 - i)
 		Range clone setRange(self, e, i)
 	)
